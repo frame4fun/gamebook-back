@@ -1,11 +1,19 @@
 import { createServer } from 'http';
 import app from './app';
+import dbConnect from './models/connection';
 
-app.set('port', normalizePort(process.env.PORT || 8080));
+dbConnect(() => {
+  console.log('✔ Connection established to mongoDB database'.green);
 
-const server = createServer(app);
-server.listen(app.get('port'), () => {
-  console.log('✔ Server listening on port'.green, String(app.get('port')).cyan);
+  app.set('port', normalizePort(process.env.PORT || 8080));
+
+  const server = createServer(app);
+  server.listen(app.get('port'), () => {
+    console.log(
+      '✔ Server listening on port'.green,
+      String(app.get('port')).cyan
+    );
+  });
 });
 
 /**
