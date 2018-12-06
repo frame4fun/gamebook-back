@@ -4,7 +4,6 @@ import bodyParser from 'body-parser';
 import cookieSession from 'cookie-session';
 import createLogger from 'morgan';
 import methodOverride from 'method-override';
-import mongoose from 'mongoose';
 import 'colors';
 
 import corsMiddleware from './middlewares/cors';
