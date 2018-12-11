@@ -18,7 +18,14 @@
     "url": "https://github.com/frame4fun/gamebook-back/issues"
   },
   "homepage": "https://github.com/frame4fun/gamebook-back#readme",
+  "engines": {
+    "node": ">=11.0.0"
+  },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.9.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-node": "^8.0.0",
     "husky": "^1.2.0",
     "nodemon": "^1.18.7",
     "prettier": "^1.15.3",
