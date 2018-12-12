@@ -63,7 +63,6 @@ function addUser(req, res) {
 
 function getUserById(req, res) {
   return User.findById(req.params.id, function(err, user) {
-    console.log(err.name);
     if (err) {
       return res.sendStatus(500);
     }

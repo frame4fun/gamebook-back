@@ -7,7 +7,9 @@ mongoose.connect(
 
 const db = mongoose.connection;
 db.on('error', err => {
+  // eslint-disable-next-line no-console
   console.error(err);
+  // eslint-disable-next-line no-console
   console.error(`✘ CANNOT CONNECT TO mongoDB DATABASE ${dbName}!`.red);
 });
 
