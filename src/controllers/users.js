@@ -7,7 +7,6 @@ passport.use(
   new LocalStrategy(
     {
       usernameField: 'email',
-      session: false,
     },
     function(email, password, done) {
       User.findOne({ email }, function(err, user) {
@@ -45,6 +44,7 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
   res.send(req.user);
 });
 router.post('/signup', addUser);
+router.get('/logout', logout);
 router.get('/:id', getUserById);
 
 export default router;
@@ -69,4 +69,9 @@ function getUserById(req, res) {
     }
     res.send(user);
   });
+}
+
+function logout(req, res) {
+  req.logout();
+  res.sendStatus(200);
 }

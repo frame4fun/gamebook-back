@@ -32,6 +32,8 @@ app.use(
   })
 );
 
+app.use(passport.session());
+
 app.use(corsMiddleware);
 
 app.use('/users', usersController);
