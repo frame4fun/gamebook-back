@@ -3,12 +3,14 @@ import app from './app';
 import dbConnect from './models/connection';
 
 dbConnect(() => {
+  // eslint-disable-next-line no-console
   console.log('✔ Connection established to mongoDB database'.green);
 
   app.set('port', normalizePort(process.env.PORT || 8080));
 
   const server = createServer(app);
   server.listen(app.get('port'), () => {
+    // eslint-disable-next-line no-console
     console.log(
       '✔ Server listening on port'.green,
       String(app.get('port')).cyan
