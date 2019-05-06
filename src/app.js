@@ -38,4 +38,8 @@ app.use(corsMiddleware);
 
 app.use('/users', usersController);
 
+app.use((err, req, res, next) => {
+  res.status(500).send('Something broke!');
+});
+
 export default app;
