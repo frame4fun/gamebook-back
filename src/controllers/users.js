@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Router } from 'express';
 import { Strategy as LocalStrategy } from 'passport-local';
 import User from '../models/User';
+import createError from 'http-errors';
 
 passport.use(
   new LocalStrategy(
@@ -54,9 +55,9 @@ function addUser(req, res, next) {
     { email: req.body.email, password: req.body.password },
     function(err, user) {
       if (err) {
-        next(err);
+        return next(err);
       }
-      res.send(user);
+      return res.send(user);
     }
   );
 }
@@ -64,13 +65,16 @@ function addUser(req, res, next) {
 function getUserById(req, res, next) {
   return User.findById(req.params.id, function(err, user) {
     if (err) {
-      next(err);
+      return next(err);
     }
-    res.send(user);
+    if (!user) {
+      return next(new createError.NotFound());
+    }
+    return res.send(user);
   });
 }
 
 function logout(req, res) {
   req.logout();
-  res.sendStatus(200);
+  return res.sendStatus(200);
 }

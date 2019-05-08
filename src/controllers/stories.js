@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import createError from 'http-errors';
 
 import Story from '../models/Story';
 
@@ -16,7 +17,10 @@ function getStoryById(req, res, next) {
     if (err) {
       return next(err);
     }
-    res.send(story);
+    if (!story) {
+      return next(new createError.NotFound());
+    }
+    return res.send(story);
   });
 }
 
