@@ -5,14 +5,15 @@ import cookieSession from 'cookie-session';
 import createLogger from 'morgan';
 import methodOverride from 'method-override';
 import passport from 'passport';
+import cors from 'cors';
 import 'colors';
 
-import corsMiddleware from './middlewares/cors';
 import authentificationMiddleware from './middlewares/require-authentification';
 import usersController from './controllers/users';
 import storiesController from './controllers/stories';
 
 import internalServerErrorHandler from './middlewares/internal-server-error';
+import unauthorizedErrorHandler from './middlewares/unauthorized-error';
 
 const app = express();
 
@@ -38,11 +39,12 @@ app.use(
 
 app.use(passport.session());
 
-app.use(corsMiddleware);
+app.use(cors({ credentials: true }));
 
 app.use('/users', usersController);
 app.use('/stories', authentificationMiddleware, storiesController);
 
+app.use(unauthorizedErrorHandler);
 app.use(internalServerErrorHandler);
 
 export default app;

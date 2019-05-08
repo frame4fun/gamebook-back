@@ -1,6 +1,8 @@
+import createError from 'http-errors';
+
 export default function requireAuthentification(req, res, next) {
   if (!req.user) {
-    res.sendStatus(401);
+    return next(new createError.Unauthorized());
   }
   next();
 }
