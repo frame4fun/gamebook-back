@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const dbName = 'db_gamebook';
 mongoose.connect(
-  process.env.MONGODB_URI || `mongodb://localhost:27017/${dbName}`,
+  process.env.MONGODB_URI || `mongodb://mongo:27017/${dbName}`,
   { useNewUrlParser: true }
 );
 
