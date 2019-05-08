@@ -8,7 +8,9 @@ import passport from 'passport';
 import 'colors';
 
 import corsMiddleware from './middlewares/cors';
+import authentificationMiddleware from './middlewares/require-authentification';
 import usersController from './controllers/users';
+import storiesController from './controllers/stories';
 
 const app = express();
 
@@ -37,6 +39,7 @@ app.use(passport.session());
 app.use(corsMiddleware);
 
 app.use('/users', usersController);
+app.use('/stories', authentificationMiddleware, storiesController);
 
 app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
