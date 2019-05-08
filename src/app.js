@@ -12,6 +12,8 @@ import authentificationMiddleware from './middlewares/require-authentification';
 import usersController from './controllers/users';
 import storiesController from './controllers/stories';
 
+import internalServerErrorHandler from './middlewares/internal-server-error';
+
 const app = express();
 
 app.use(helmet());
@@ -41,8 +43,6 @@ app.use(corsMiddleware);
 app.use('/users', usersController);
 app.use('/stories', authentificationMiddleware, storiesController);
 
-app.use((err, req, res, next) => {
-  res.status(500).send('Something broke!');
-});
+app.use(internalServerErrorHandler);
 
 export default app;

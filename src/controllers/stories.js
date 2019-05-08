@@ -2,19 +2,19 @@ import { Router } from 'express';
 
 import Story from '../models/Story';
 
-function getAll(req, res) {
+function getAll(req, res, next) {
   return Story.find({}, (err, stories) => {
     if (err) {
-      return res.sendStatus(500);
+      return next(err);
     }
     return res.send(stories);
   });
 }
 
-function getStoryById(req, res) {
+function getStoryById(req, res, next) {
   return Story.findById(req.params.id, function(err, story) {
     if (err) {
-      return res.sendStatus(500);
+      return next(err);
     }
     res.send(story);
   });

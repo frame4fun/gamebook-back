@@ -49,22 +49,22 @@ router.get('/:id', getUserById);
 
 export default router;
 
-function addUser(req, res) {
+function addUser(req, res, next) {
   return User.create(
     { email: req.body.email, password: req.body.password },
     function(err, user) {
       if (err) {
-        return res.sendStatus(500);
+        next(err);
       }
       res.send(user);
     }
   );
 }
 
-function getUserById(req, res) {
+function getUserById(req, res, next) {
   return User.findById(req.params.id, function(err, user) {
     if (err) {
-      return res.sendStatus(500);
+      next(err);
     }
     res.send(user);
   });
