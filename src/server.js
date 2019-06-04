@@ -22,20 +22,25 @@ dbConnect(() => {
 });
 
 process.on('SIGINT', () => {
+  // eslint-disable-next-line no-console
   console.info('SIGINT signal received.');
 
   // Stops the server from accepting new connections and finishes existing connections.
   server.close(function(err) {
     // if error, log and exit with error (1 code)
     if (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
+      // eslint-disable-next-line no-process-exit
       process.exit(1);
     }
 
     // close your database connection and exit with success (0 code)
     // for example with mongoose
     mongoose.connection.close(function() {
+      // eslint-disable-next-line no-console
       console.log('Mongoose connection disconnected');
+      // eslint-disable-next-line no-process-exit
       process.exit(0);
     });
   });
