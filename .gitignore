@@ -559,5 +559,6 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
+.vscode/
 
 # End of https://www.gitignore.io/api/node,macos,linux,windows,jetbrains,visualstudio
