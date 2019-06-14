@@ -1,9 +1,12 @@
-FROM keymetrics/pm2:latest-alpine
+FROM node:10-alpine
 
 # Create app directory
 WORKDIR /usr/src/app
 
-ENV NPM_CONFIG_LOGLEVEL warn
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
 
 EXPOSE 8080
-CMD [ "pm2-runtime", "start", "ecosystem.config.js" ]
+CMD [ "npm", "run", "dev" ]

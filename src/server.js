@@ -17,7 +17,6 @@ dbConnect(() => {
       '✔ Server listening on port'.green,
       String(app.get('port')).cyan
     );
-    process.send('ready');
   });
 });
 
