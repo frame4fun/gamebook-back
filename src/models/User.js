@@ -1,27 +1,31 @@
-import mongoose from 'mongoose';
+import neo4jDriver from '../neo4jDriver';
+import uuid from 'uuid/v5';
 
-const userSchema = new mongoose.Schema({
-  email: { type: String, required: true },
-  password: { type: String, required: true },
-  alias: { type: String, required: true },
-  stories: [
-    {
-      progression: { type: String, required: true },
-      story: { type: String, ref: 'Story', required: true },
-    },
-  ],
-});
+export async function create(alias, email, password) {
+  const session = neo4jDriver.session();
+  const id = uuid(email, 'bca724aa-ee65-444a-a76d-74a94a57e200');
+  const result = await session.run(
+    ' CREATE (u:User {alias: $alias, email: $email, password: $password, id: $id});',
+    { alias: alias, email: email, password: password, id: id }
+  );
+  session.close();
+  return result;
+}
 
-// Duplicate the ID field.
-userSchema.virtual('id').get(function() {
-  return this._id.toHexString();
-});
+export async function findById(id) {
+  const session = neo4jDriver.session();
+  const result = await session.run(' MATCH(u:User {id: $id}) return u;', {
+    id,
+  });
+  session.close();
+  return result;
+}
 
-// Ensure virtual fields are serialised.
-userSchema.set('toJSON', {
-  virtuals: true,
-});
-
-const Model = mongoose.model('User', userSchema);
-
-export default Model;
+export async function findByEmail(email) {
+  const session = neo4jDriver.session();
+  const result = await session.run(' MATCH(u:User {email: $email}) return u;', {
+    email,
+  });
+  session.close();
+  return result;
+}

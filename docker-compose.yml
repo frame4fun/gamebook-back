@@ -13,16 +13,18 @@ services:
     networks:
       - gamebook-network
     depends_on:
-      - mongo
-  mongo:
-    container_name: mongo
-    image: mongo
+      - neo4j
+  neo4j:
+    container_name: neo4j
+    image: neo4j
+    ports:
+      - '7474:7474'
+      - '7473:7473'
+      - '7687:7687'
     networks:
       - gamebook-network
     volumes:
-      - gamebook-datas:/data/db
-    ports:
-      - '27017:27017'
+      - gamebook-datas:/data
 volumes:
   gamebook-datas:
     name: gamebook-datas-volume
