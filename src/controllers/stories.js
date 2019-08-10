@@ -1,27 +1,27 @@
-import { Router } from 'express';
 import createError from 'http-errors';
+import { Router } from 'express';
 
-import Story from '../models/Story';
+import { findAll, findById } from '../models/Story';
 
-function getAll(req, res, next) {
-  return Story.find({}, (err, stories) => {
-    if (err) {
-      return next(err);
-    }
+async function getAll(req, res, next) {
+  try {
+    const stories = await findAll();
     return res.send(stories);
-  });
+  } catch (err) {
+    return next(err);
+  }
 }
 
-function getStoryById(req, res, next) {
-  return Story.findById(req.params.id, function(err, story) {
-    if (err) {
-      return next(err);
-    }
+async function getStoryById(req, res, next) {
+  try {
+    const story = await findById(req.params.id);
     if (!story) {
       return next(new createError.NotFound());
     }
     return res.send(story);
-  });
+  } catch (err) {
+    return next(err);
+  }
 }
 
 const router = new Router();

@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Router } from 'express';
 import { Strategy as LocalStrategy } from 'passport-local';
-import User from '../models/User';
+import { findByEmail, findById, create } from '../models/User';
 import createError from 'http-errors';
 
 passport.use(
@@ -9,11 +9,9 @@ passport.use(
     {
       usernameField: 'email',
     },
-    function(email, password, done) {
-      User.findOne({ email }, function(err, user) {
-        if (err) {
-          return done(err);
-        }
+    async function(email, password, done) {
+      try {
+        const user = await findByEmail(email);
         if (!user) {
           return done(null, false);
         }
@@ -21,7 +19,9 @@ passport.use(
           return done(null, false);
         }
         return done(null, user);
-      });
+      } catch (err) {
+        return done(err);
+      }
     }
   )
 );
@@ -30,13 +30,13 @@ passport.serializeUser(function(user, cb) {
   cb(null, user.id);
 });
 
-passport.deserializeUser(function(id, cb) {
-  User.findById(id, function(err, user) {
-    if (err) {
-      return cb(err);
-    }
+passport.deserializeUser(async function(id, cb) {
+  try {
+    const user = await findById(id);
     cb(null, user);
-  });
+  } catch (err) {
+    return cb(err);
+  }
 });
 
 const router = new Router();
@@ -51,27 +51,24 @@ router.get('/:id', getUserById);
 export default router;
 
 function addUser(req, res, next) {
-  return User.create(
-    { email: req.body.email, password: req.body.password },
-    function(err, user) {
-      if (err) {
-        return next(err);
-      }
-      return res.send(user);
-    }
-  );
+  try {
+    create(req.body.alias, req.body.email, req.body.password);
+    return res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
 }
 
-function getUserById(req, res, next) {
-  return User.findById(req.params.id, function(err, user) {
-    if (err) {
-      return next(err);
-    }
+async function getUserById(req, res, next) {
+  try {
+    const user = await findById(req.params.id);
     if (!user) {
       return next(new createError.NotFound());
     }
     return res.send(user);
-  });
+  } catch (err) {
+    return next(err);
+  }
 }
 
 function logout(req, res) {
