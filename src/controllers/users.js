@@ -1,9 +1,10 @@
 import passport from 'passport';
 import { Router } from 'express';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { findByEmail, findById, create } from '../models/User';
+import { find, create } from '../models/User';
 import createError from 'http-errors';
 
+const tableName = 'User';
 passport.use(
   new LocalStrategy(
     {
@@ -11,7 +12,7 @@ passport.use(
     },
     async function(email, password, done) {
       try {
-        const user = await findByEmail(email);
+        const user = await find(tableName, email);
         if (!user) {
           return done(null, false);
         }
@@ -32,7 +33,7 @@ passport.serializeUser(function(user, cb) {
 
 passport.deserializeUser(async function(id, cb) {
   try {
-    const user = await findById(id);
+    const user = await find(tableName, id);
     cb(null, user);
   } catch (err) {
     return cb(err);
@@ -61,7 +62,7 @@ async function addUser(req, res, next) {
 
 async function getUserById(req, res, next) {
   try {
-    const user = await findById(req.params.id);
+    const user = await find(tableName, req.params.id);
     if (!user) {
       return next(new createError.NotFound());
     }

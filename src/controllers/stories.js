@@ -1,7 +1,7 @@
 import createError from 'http-errors';
 import { Router } from 'express';
 
-import { findAll, findById } from '../models/Story';
+import { findAll, find } from '../models/AbstractModelUtils';
 
 async function getAll(req, res, next) {
   try {
@@ -14,7 +14,7 @@ async function getAll(req, res, next) {
 
 async function getStoryById(req, res, next) {
   try {
-    const story = await findById(req.params.id);
+    const story = await find('Story', req.params.id);
     if (!story) {
       return next(new createError.NotFound());
     }
