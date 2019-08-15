@@ -50,9 +50,9 @@ router.get('/:id', getUserById);
 
 export default router;
 
-function addUser(req, res, next) {
+async function addUser(req, res, next) {
   try {
-    create(req.body.alias, req.body.email, req.body.password);
+    await create(req.body.alias, req.body.email, req.body.password);
     return res.sendStatus(200);
   } catch (err) {
     next(err);

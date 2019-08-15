@@ -6,7 +6,7 @@ export async function create(alias, email, password) {
   const id = uuid(email, 'bca724aa-ee65-444a-a76d-74a94a57e200');
   const result = await session.run(
     ' CREATE (u:User {alias: $alias, email: $email, password: $password, id: $id});',
-    { alias: alias, email: email, password: password, id: id }
+    { alias, email, password, id }
   );
   session.close();
   return result;
