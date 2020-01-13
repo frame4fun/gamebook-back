@@ -45,7 +45,7 @@
     "http-errors": "1.7.3",
     "method-override": "3.0.0",
     "morgan": "1.9.1",
-    "neo4j-driver": "4.0.0",
+    "neo4j-driver": "4.0.1",
     "passport": "0.4.1",
     "passport-local": "1.0.0",
     "uuid": "3.3.3"
