@@ -48,6 +48,6 @@
     "neo4j-driver": "4.0.1",
     "passport": "0.4.1",
     "passport-local": "1.0.0",
-    "uuid": "3.3.3"
+    "uuid": "3.4.0"
   }
 }
