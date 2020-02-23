@@ -4,9 +4,9 @@ FROM node:12.16.1-alpine
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --production
 
-COPY . .
+COPY src ./
+COPY index.js ./
 
-EXPOSE 8080
-CMD [ "npm", "run", "dev" ]
+CMD [ "node", "index.js" ]
