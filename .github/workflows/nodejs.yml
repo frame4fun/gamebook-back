@@ -29,3 +29,9 @@ jobs:
       run: npm test
       env:
         CI: true
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: frame4fun/gamebook-back
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
