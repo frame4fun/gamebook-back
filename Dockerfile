@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci --production
 
-COPY src ./
+COPY src src/
 COPY index.js ./
 
 EXPOSE 3002

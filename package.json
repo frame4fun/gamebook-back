@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --inspect=0.0.0.0 index.js",
+    "dev": "nodemon -r dotenv/config --inspect=0.0.0.0 index.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "babel-eslint": "10.1.0",
+    "dotenv": "8.2.0",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.10.0",
     "eslint-plugin-node": "11.0.0",
