@@ -1,13 +1,32 @@
 {
-  "parser": "babel-eslint",
+  "root": true,
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 9,
-    "sourceType": "module"
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
   },
   "env": {
     "node": true
   },
-  "extends": ["prettier", "eslint:recommended", "plugin:node/recommended"],
+  "settings": {
+    "node": {
+      "tryExtensions": [".js", ".json", ".ts"]
+    }
+  },
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "airbnb-base",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:node/recommended",
+    "prettier",
+    "prettier/@typescript-eslint",
+    "plugin:import/typescript",
+    "plugin:jest/recommended",
+    "plugin:jest/style"
+  ],
   "rules": {
     "node/no-unsupported-features/es-syntax": [
       "error",
@@ -15,6 +34,17 @@
         "ignores": ["modules"]
       }
     ],
-    "no-console": "error"
+    "no-console": "error",
+    "import/prefer-default-export": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "mjs": "never",
+        "jsx": "never",
+        "ts": "never"
+      }
+    ]
   }
 }

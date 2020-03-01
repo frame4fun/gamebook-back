@@ -2,6 +2,27 @@ import { createServer } from 'http';
 import app from './app';
 import neo4jDriver from './neo4jDriver';
 
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val: string): string | number | boolean {
+  const port = parseInt(val, 10);
+
+  // eslint-disable-next-line no-restricted-globals
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
 const server = createServer(app);
 
 neo4jDriver.verifyConnectivity().then(
@@ -9,7 +30,7 @@ neo4jDriver.verifyConnectivity().then(
     // eslint-disable-next-line no-console
     console.log('✔ Connection established to neo4j database'.green);
 
-    app.set('port', normalizePort(process.env.PORT || 8080));
+    app.set('port', normalizePort(process.env.PORT ?? '8080'));
     server.listen(app.get('port'), () => {
       // eslint-disable-next-line no-console
       console.log(
@@ -61,23 +82,3 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}

@@ -1,4 +1,4 @@
 {
   "verbose": true,
-  "watch": ["index.js", "src/**/*.js"]
+  "watch": ["index.js", "src/**/*.ts"]
 }
