@@ -1,5 +1,5 @@
 import * as modelUtils from './AbstractModelUtils';
-import uuid from 'uuid/v5';
+import { v5 as uuid } from 'uuid';
 
 const tableName = 'User';
 

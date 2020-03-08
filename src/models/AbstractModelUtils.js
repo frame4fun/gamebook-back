@@ -1,6 +1,6 @@
 import neo4jDriver from '../neo4jDriver';
 
-import uuid from 'uuid/v5';
+import { v5 as uuid } from 'uuid';
 
 function requestListColumns(columns) {
   let request = ``;
@@ -13,7 +13,10 @@ function requestListColumns(columns) {
 // eslint-disable-next-line no-unused-vars
 export async function create(uuidKey, tableName, columns) {
   const session = neo4jDriver.session();
-  const id = uuid(Object.values(columns).reduce((x, y) => x + y), uuidKey);
+  const id = uuid(
+    Object.values(columns).reduce((x, y) => x + y),
+    uuidKey
+  );
   columns['id'] = id;
   const request = `CREATE (s:${tableName} { ${requestListColumns(columns)} });`;
 
