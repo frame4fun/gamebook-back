@@ -6,16 +6,19 @@ import createLogger from 'morgan';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import cors from 'cors';
+import createError from 'http-errors';
 import 'colors';
 
-import authentificationMiddleware from './middlewares/require-authentification';
 import storiesController from './controllers/stories';
 
-import internalServerErrorHandler from './middlewares/internal-server-error';
-import unauthorizedErrorHandler from './middlewares/unauthorized-error';
 import { User } from './types';
 import { findByEmail, findById } from './models/User';
 import { usersRouter } from './routers';
+import {
+  requireAuthentificationMiddleware,
+  httpErrorsMiddleware,
+  errorsMiddleware,
+} from './middlewares';
 
 passport.use(
   new LocalStrategy(
@@ -28,9 +31,9 @@ passport.use(
         if (!user) {
           return done(null, false, { message: 'Incorrect username.' });
         }
-        /* if (password !== user.password) {
+        if (password !== user.password) {
           return done(null, false, { message: 'Incorrect password.' });
-        } */
+        }
         return done(null, user);
       } catch (err) {
         return done(err);
@@ -46,6 +49,9 @@ passport.serializeUser<User, string>((user, done) => {
 passport.deserializeUser<User, string>(async (id, done) => {
   try {
     const user = await findById(id);
+    if (user === null) {
+      return done(new createError.NotFound('The user does not exist'));
+    }
     return done(null, user);
   } catch (err) {
     return done(err);
@@ -76,9 +82,12 @@ app.use(passport.session());
 app.use(cors({ credentials: true }));
 
 app.use('/users', usersRouter);
-app.use('/stories', authentificationMiddleware, storiesController);
+app.use('/stories', requireAuthentificationMiddleware, storiesController);
+app.use((req, res, next) => {
+  res.status(404).send("This is not the page you're lokking for!");
+});
 
-app.use(unauthorizedErrorHandler);
-app.use(internalServerErrorHandler);
+app.use(httpErrorsMiddleware);
+app.use(errorsMiddleware);
 
 export default app;

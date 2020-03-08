@@ -17,7 +17,7 @@ export async function create(
   uuidKey: string,
   tableName: string,
   columns: Columns
-): Promise<QueryResult> {
+): Promise<void> {
   const session = neo4jDriver.session();
   const id = uuid(
     Object.values(columns).reduce((x, y) => x + y),
@@ -28,15 +28,14 @@ export async function create(
     id,
   })} });`;
 
-  const result = await session.run(request);
+  await session.run(request);
   session.close();
-  return result;
 }
 
 export async function findOne<T>(
   tableName: string,
   columns: Columns
-): Promise<T> {
+): Promise<T | null> {
   const session = neo4jDriver.session();
   const query = `MATCH(s:${tableName} { ${requestListColumns(
     columns
@@ -46,7 +45,7 @@ export async function findOne<T>(
     return record.get('s').properties;
   })[0];
   session.close();
-  return result;
+  return result ?? null;
 }
 
 export async function findAll<T>(

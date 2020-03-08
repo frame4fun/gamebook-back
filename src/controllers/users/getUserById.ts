@@ -13,8 +13,8 @@ const getUserById: RequestHandler<Params, User, {}> = async (
 ) => {
   try {
     const user = await findById(req.params.id);
-    if (!user) {
-      return next(new createError.NotFound());
+    if (user === null) {
+      return next(new createError.NotFound('The user does not exist'));
     }
     return res.send(user);
   } catch (err) {

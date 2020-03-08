@@ -1,5 +1,6 @@
+import createError from 'http-errors';
 import { RequestHandler } from '../../types';
-import { create } from '../../models/User';
+import { create, findByEmail } from '../../models/User';
 
 interface Body {
   alias: string;
@@ -9,6 +10,14 @@ interface Body {
 
 const signUp: RequestHandler<never, never, Body> = async (req, res, next) => {
   try {
+    const user = await findByEmail(req.body.email);
+    if (user === null) {
+      return next(
+        new createError.BadRequest(
+          `The email ${req.body.email} is already used`
+        )
+      );
+    }
     await create(req.body.alias, req.body.email, req.body.password);
     return res.sendStatus(200);
   } catch (err) {

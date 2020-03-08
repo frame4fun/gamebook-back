@@ -9,16 +9,16 @@ export async function create(
   alias: string,
   email: string,
   password: string
-): Promise<QueryResult> {
+): Promise<void> {
   const id = uuid(email, 'bca724aa-ee65-444a-a76d-74a94a57e200');
-  return modelUtils.create(id, tableName, { alias, email, password, id });
+  modelUtils.create(id, tableName, { alias, email, password, id });
 }
 
-export async function findById(id: string): Promise<User> {
+export async function findById(id: string): Promise<User | null> {
   return modelUtils.findOne<User>(tableName, { id });
 }
 
-export async function findByEmail(email: string): Promise<User> {
+export async function findByEmail(email: string): Promise<User | null> {
   return modelUtils.findOne<User>(tableName, { email });
 }
 
