@@ -33,7 +33,7 @@
     "@types/node": "13.13.9",
     "@types/passport": "1.0.3",
     "@types/passport-local": "1.0.33",
-    "@types/uuid": "7.0.4",
+    "@types/uuid": "8.0.0",
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",
     "babel-eslint": "10.1.0",
@@ -67,6 +67,6 @@
     "neo4j-driver": "4.0.2",
     "passport": "0.4.1",
     "passport-local": "1.0.0",
-    "uuid": "7.0.3"
+    "uuid": "8.1.0"
   }
 }
