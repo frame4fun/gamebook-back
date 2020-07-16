@@ -48,7 +48,7 @@
     "lint-staged": "10.2.11",
     "nodemon": "2.0.4",
     "prettier": "1.19.1",
-    "typescript": "3.9.6"
+    "typescript": "3.9.7"
   },
   "dependencies": {
     "@babel/cli": "7.10.5",
